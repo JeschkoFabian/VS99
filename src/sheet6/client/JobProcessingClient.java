@@ -47,11 +47,15 @@ public class JobProcessingClient implements Runnable, Remote, Serializable {
 				System.out.println("Client " + clientId + " request");
 				comp.submit(new CallImplementation(), job);
 
-				while (job != null && !job.isDone()) {
+				while (job != null && !job.isDone() && !job.isRefused()) {
 					System.out.println("Client " + clientId + " waiting...");
 					Thread.sleep(100);
 				}
-				System.out.println("Client " + clientId + " result: "
+				
+				if (job.isRefused())
+					System.out.println("Client "+ clientId + " got refused.");
+				else 
+					System.out.println("Client " + clientId + " result: "
 						+ job.getResult());
 			}
 
