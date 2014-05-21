@@ -1,7 +1,7 @@
 package g99.client;
 
 import g99.webservice.generated.Computation;
-import g99.webservice.generated.Computation_Service;
+import g99.webservice.generated.ComputationService;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -11,23 +11,19 @@ import javax.xml.ws.WebServiceException;
 public class Client {
 
 	/** Number of threads running on this client */
-	private static final int threadCount = 1;
+	private static final int threadCount = 3;
 
 	@SuppressWarnings("unused")
 	public static void main(final String[] args) {
-		long time = -System.currentTimeMillis();
 
 		final Computation service;
 		try {
-			service = new Computation_Service().getComputationSOAP();
+			service = new ComputationService().getComputationPort();
 		} catch (WebServiceException e) {
 			System.err.println("Error accessing WSDL: " + e.getMessage());
-			e.printStackTrace();
-			System.err.flush();
-			System.out.println("Connection failed");
-			System.exit(-1);
 			return;
 		}
+		
 		final Random rnd = new Random(System.currentTimeMillis());
 
 		// Runnable for different threads
@@ -45,14 +41,14 @@ public class Client {
 			private final BigInteger[] getNumbers(int count) {
 				final BigInteger[] result = new BigInteger[count];
 				for (int i = 0; i < count; i++)
-					result[i] = BigInteger.valueOf(rnd.nextLong());
+					result[i] = BigInteger.valueOf(rnd.nextInt(1000));
 				return result;
 			}
 
 			private void doRandomTask() {
 				int action = rnd.nextInt(4);
 				final BigInteger[] numbers = getNumbers(2);
-				final StringBuffer line = new StringBuffer();
+				StringBuilder line = new StringBuilder();
 
 				switch (action) {
 				case 1:
@@ -109,11 +105,5 @@ public class Client {
 			}
 		}
 
-		time += System.currentTimeMillis();
-		computationTime += System.currentTimeMillis();
-		System.out.println("Threads = " + threadCount);
-		System.out.println("Runtime: " + time + " ms (computation-runtime: "
-				+ computationTime + " ms)");
-		System.out.println("Done");
 	}
 }

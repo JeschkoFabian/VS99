@@ -1,13 +1,13 @@
 
 package g99.webservice.generated;
 
+import java.math.BigInteger;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
+import javax.jws.soap.SOAPBinding;
+import javax.xml.ws.Action;
 
 
 /**
@@ -16,31 +16,70 @@ import javax.xml.ws.ResponseWrapper;
  * Generated source version: 2.2
  * 
  */
-@WebService(name = "Computation", targetNamespace = "http://vs8.g99/Computation/")
-@XmlSeeAlso({
-    ObjectFactory.class
-})
+@WebService(name = "Computation", targetNamespace = "http://webservice.g99/")
+@SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface Computation {
 
 
     /**
      * 
-     * @param operand2
-     * @param operand1
-     * @param op
+     * @param arg1
+     * @param arg0
      * @return
-     *     returns java.lang.String
+     *     returns java.math.BigInteger
      */
-    @WebMethod(operationName = "Computation", action = "http://vs8.g99/Computation/")
-    @WebResult(name = "out", targetNamespace = "")
-    @RequestWrapper(localName = "Computation", targetNamespace = "http://vs8.g99/Computation/", className = "g99.webservice.generated.Computation_Type")
-    @ResponseWrapper(localName = "ComputationResponse", targetNamespace = "http://vs8.g99/Computation/", className = "g99.webservice.generated.ComputationResponse")
-    public String computation(
-        @WebParam(name = "op", targetNamespace = "")
-        String op,
-        @WebParam(name = "operand1", targetNamespace = "")
-        double operand1,
-        @WebParam(name = "operand2", targetNamespace = "")
-        double operand2);
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://webservice.g99/Computation/addRequest", output = "http://webservice.g99/Computation/addResponse")
+    public BigInteger add(
+        @WebParam(name = "arg0", partName = "arg0")
+        BigInteger arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        BigInteger arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns java.math.BigInteger
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://webservice.g99/Computation/subRequest", output = "http://webservice.g99/Computation/subResponse")
+    public BigInteger sub(
+        @WebParam(name = "arg0", partName = "arg0")
+        BigInteger arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        BigInteger arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns java.math.BigInteger
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://webservice.g99/Computation/mulRequest", output = "http://webservice.g99/Computation/mulResponse")
+    public BigInteger mul(
+        @WebParam(name = "arg0", partName = "arg0")
+        BigInteger arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        BigInteger arg1);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.math.BigInteger
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://webservice.g99/Computation/facRequest", output = "http://webservice.g99/Computation/facResponse")
+    public BigInteger fac(
+        @WebParam(name = "arg0", partName = "arg0")
+        BigInteger arg0);
 
 }

@@ -7,7 +7,7 @@ import javax.xml.ws.Endpoint;
 
 public class Server {
 
-	public final static String endpointURL = "http://localhost:8081/services";
+	public final static String endpointURL = "http://localhost:8080/services";
 
 	public static void main(final String[] args) {
 		String url = endpointURL;
